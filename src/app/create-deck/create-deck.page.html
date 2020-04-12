@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="albums-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/decks">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create Deck</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #heroForm="ngForm" (ngSubmit)="onSubmit()">
+    <ion-item class="deck-name">
+      <ion-label position="floating">Deck Name</ion-label>
+      <ion-input required [(ngModel)]="deckName" name="deckName"></ion-input>
+    </ion-item>
+
+    <ion-button [disabled]="!heroForm.form.valid" type="submit" expand="block">Create Deck</ion-button>
+  </form>
+</ion-content>
