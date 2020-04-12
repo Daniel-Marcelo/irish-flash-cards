@@ -1,0 +1,7 @@
+{
+  "name": "irish-flash-cards",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
