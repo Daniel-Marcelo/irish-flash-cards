@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: ':deckId',
     component: DeckSummaryPage
+  },
+  {
+    path: ':deckId/create-card',
+    loadChildren: () => import('../create-card/create-card.module').then( m => m.CreateCardPageModule)
   }
 ];
 

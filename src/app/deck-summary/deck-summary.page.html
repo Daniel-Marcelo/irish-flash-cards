@@ -4,7 +4,7 @@
       <ion-title>{{deck.name}}</ion-title>
     </ng-container>
     <ion-buttons slot="start">
-      <ion-button routerLink="/decks">
+      <ion-button>
         <ion-icon name="document"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -18,8 +18,9 @@
 
 <ion-content>
     <ng-container *ngIf="cards$ | async; let cards">
-      <ng-container *ngIf="cards?.length === 0">
-        <span>You should create a card</span>
-    </ng-container>
+      <div class="parent" *ngIf="cards?.length === 0">
+        <div>Start Learning</div>
+        <div><ion-button routerLink="create-card" class="create-card">Create Flash Card</ion-button></div>
+      </div>
   </ng-container>
 </ion-content>
