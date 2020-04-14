@@ -17,9 +17,7 @@ export class CreateCardPage implements OnInit {
   }
 
   pickImage() {
-    this.fileChooser.open()
-    .then(uri => console.log(uri))
-    .catch(e => console.log(e));
+    alert('image!');
   }
 
 }

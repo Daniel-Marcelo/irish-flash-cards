@@ -14,12 +14,12 @@ export class CardService {
   private cardsInDeck = new BehaviorSubject<Card[]>([]);
 
   constructor(private dataStore: DataStoreService) {
-    this.cardsInDeck$ = this.cardsInDeck.pipe(filter(cards => !!cards))
+    this.cardsInDeck$ = this.cardsInDeck.asObservable();
   }
 
   getCardsInDeck(deckId: string): Observable<Card[]> {
     this.refreshCards();
-    return this.cardsInDeck$.pipe(map(cards => cards.filter(card => card.deckId === deckId) || []));
+    return this.cardsInDeck$.pipe(map(cards => cards.filter(card => card.deckId === deckId)));
   }
 
   createCardInDeck(card: Card) {
@@ -30,7 +30,7 @@ export class CardService {
 
   private refreshCards() {
     this.dataStore.get<Card[]>(CardService.allCards).subscribe(
-      cards => this.cardsInDeck.next(cards)
+      cards => this.cardsInDeck.next(cards || [])
     );
   }
 

@@ -22,5 +22,13 @@
         <div>Start Learning</div>
         <div><ion-button routerLink="create-card" class="create-card">Create Flash Card</ion-button></div>
       </div>
+
+      <div class="parent" *ngIf="cards">
+        <div>Start</div>
+      </div>
+
+      <div class="parent" *ngIf="!cards">
+        <div>asdsad</div>
+      </div>
   </ng-container>
 </ion-content>
