@@ -10,7 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "android": "rm -R android && npx cap add android && npx cap open android"
+    "android": "rm -R android && npx cap add android && npx cap open android",
+    "android:sync": "npx cap copy"
   },
   "private": true,
   "dependencies": {

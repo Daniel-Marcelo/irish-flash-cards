@@ -20,4 +20,8 @@ export class CreateCardPage implements OnInit {
     alert('image!');
   }
 
+  recordAudio() {
+    alert('audio');
+  }
+
 }

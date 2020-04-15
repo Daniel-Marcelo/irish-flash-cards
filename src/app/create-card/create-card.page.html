@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>create-card</ion-title>
+    <ion-title>Create a Flash Card</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,9 +8,13 @@
 
   <form #createCardForm="ngForm" (ngSubmit)="onSubmit()">
 
-    <div style="text-align: center">
+    <div class="select-image-container">
       <span (click)="pickImage()">
-        <ion-icon name="image-outline"></ion-icon>
+        <ion-icon size="large" name="image-outline"></ion-icon>
+      </span>
+
+      <span (click)="recordAudio()">
+        <ion-icon size="large" name="mic-outline"></ion-icon>
       </span>
     </div>
 
@@ -24,11 +28,9 @@
       <ion-input required [(ngModel)]="answer" name="answer"></ion-input>
     </ion-item>
 
-    <!-- <ion-item> -->
-      <label position="floating">        <input type="checkbox"/> Test Both Sides
-
-      </label>
-    <!-- </ion-item> -->
+    <label position="floating">
+      <input type="checkbox" /> Test Both Sides
+    </label>
 
     <ion-button [disabled]="!createCardForm.form.valid" type="submit" expand="block">Create Card</ion-button>
   </form>
