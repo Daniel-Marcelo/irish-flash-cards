@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataStoreService } from '../data-store/data-store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Card } from './card.model';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,18 +25,12 @@ export class CardService {
   createCardInDeck(card: Card) {
     const cards = this.cardsInDeck.getValue();
     cards.push(card);
-    this.updateCardsStored(cards);
+    return this.dataStore.set<Card[]>(CardService.allCards, cards).pipe(tap(cards => this.cardsInDeck.next(cards || [])));
   }
 
   private refreshCards() {
     this.dataStore.get<Card[]>(CardService.allCards).subscribe(
       cards => this.cardsInDeck.next(cards || [])
-    );
-  }
-
-  private updateCardsStored(cards: Card[]): void {
-    this.dataStore.set<Card[]>(CardService.allCards, cards).subscribe(
-      cards => this.cardsInDeck.next(cards)
     );
   }
 }

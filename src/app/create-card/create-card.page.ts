@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
+import { CardService } from '../card/card.service';
+import { Card } from '../card/card.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-card',
@@ -10,10 +13,18 @@ export class CreateCardPage implements OnInit {
 
   question: string;
   answer: string;
+  deckId: string;
 
-  constructor(private fileChooser: FileChooser) { }
+  constructor(private mediaCapture: MediaCapture, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.deckId = this.route.snapshot.paramMap.get('deckId');
+  }
+
+  onSubmit() {
+    this.cardService.createCardInDeck(new Card(this.deckId, this.question, this.answer)).subscribe(
+      cards => this.router.navigateByUrl('/decks/'+this.deckId)
+    );
   }
 
   pickImage() {
@@ -21,7 +32,11 @@ export class CreateCardPage implements OnInit {
   }
 
   recordAudio() {
-    alert('audio');
+    this.mediaCapture.captureAudio().then(
+      (data: MediaFile[]) => {
+        alert('data '+ JSON.stringify(data))
+      },
+      (err: CaptureError) => alert(JSON.stringify(err))
+    );
   }
-
 }

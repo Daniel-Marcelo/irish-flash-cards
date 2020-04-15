@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreateCardPageRoutingModule } from './create-card-routing.module';
 
 import { CreateCardPage } from './create-card.page';
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
 
 @NgModule({
   imports: [
@@ -17,6 +17,6 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
     CreateCardPageRoutingModule
   ],
   declarations: [CreateCardPage],
-  providers: [FileChooser]
+  providers: [MediaCapture]
 })
 export class CreateCardPageModule {}

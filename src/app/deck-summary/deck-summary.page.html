@@ -17,18 +17,18 @@
 </ion-header>
 
 <ion-content>
-    <ng-container *ngIf="cards$ | async; let cards">
-      <div class="parent" *ngIf="cards?.length === 0">
-        <div>Start Learning</div>
-        <div><ion-button routerLink="create-card" class="create-card">Create Flash Card</ion-button></div>
+  <ng-container *ngIf="cards$ | async; let cards">
+    <div class="parent" *ngIf="cards?.length === 0; else startStudying">
+      <div>Start Learning</div>
+      <div>
+        <ion-button routerLink="create-card" class="create-card">Create Flash Card</ion-button>
       </div>
-
-      <div class="parent" *ngIf="cards">
-        <div>Start</div>
-      </div>
-
-      <div class="parent" *ngIf="!cards">
-        <div>asdsad</div>
-      </div>
+    </div>
   </ng-container>
 </ion-content>
+
+<ng-template #startStudying>
+  <div class="parent">
+    <ion-button expand="block" [routerLink]="['card-review']">Start Studying</ion-button>
+  </div>
+</ng-template>

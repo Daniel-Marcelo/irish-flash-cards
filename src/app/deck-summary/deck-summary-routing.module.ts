@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: ':deckId/create-card',
     loadChildren: () => import('../create-card/create-card.module').then( m => m.CreateCardPageModule)
+  },
+  {
+    path: ':deckId/card-review',
+    loadChildren: () => import('../card-review/card-review.module').then( m => m.CardReviewPageModule)
   }
 ];
 
