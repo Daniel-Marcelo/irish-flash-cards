@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CardReviewPageRoutingModule } from './card-review-routing.module';
 
 import { CardReviewPage } from './card-review.page';
+import { CardFlipComponent } from '../card-flip/card-flip.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { CardReviewPage } from './card-review.page';
     IonicModule,
     CardReviewPageRoutingModule
   ],
-  declarations: [CardReviewPage]
+  declarations: [CardReviewPage, CardFlipComponent]
 })
 export class CardReviewPageModule {}

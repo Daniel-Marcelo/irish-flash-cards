@@ -1,0 +1,33 @@
+.card-flip-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+}
+
+.card-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-container > div{ 
+    width: 60em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ion-button > div span {
+    display: block;
+}
+
+.days {
+    font-size: 0.6em;
+}

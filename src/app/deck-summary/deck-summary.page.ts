@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeckService } from '../deck/deck.service';
 import { Deck } from '../deck/deck.model';
 import { Observable } from 'rxjs';
 import { Card } from '../card/card.model';
 import { CardService } from '../card/card.service';
+import { CardReviewService } from '../card-review/card-review.service';
 
 @Component({
   selector: 'app-deck-summary',
@@ -13,13 +14,19 @@ import { CardService } from '../card/card.service';
 })
 export class DeckSummaryPage implements OnInit {
   
+  private deckId: string;
   deck$: Observable<Deck>
   cards$: Observable<Card[]>
-  constructor(private route: ActivatedRoute, private cardService: CardService, private deckService: DeckService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService, private cardReviewService: CardReviewService) { }
 
   ngOnInit(): void {
-    const deckId = this.route.snapshot.paramMap.get('deckId');
-    this.deck$ = this.deckService.deckById$(deckId);
-    this.cards$ = this.cardService.getCardsInDeck(deckId);
+    this.deckId = this.route.snapshot.paramMap.get('deckId');
+    this.deck$ = this.deckService.deckById$(this.deckId);
+    this.cards$ = this.cardService.getCardsInDeck(this.deckId);
+  }
+
+  beginReview(): void {
+    this.cardReviewService.beginReview(this.deckId);
+    this.router.navigateByUrl(this.router.url+'/card-review/0');
   }
 }

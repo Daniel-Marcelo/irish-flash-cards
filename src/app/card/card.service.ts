@@ -25,7 +25,13 @@ export class CardService {
   createCardInDeck(card: Card) {
     const cards = this.cardsInDeck.getValue();
     cards.push(card);
-    return this.dataStore.set<Card[]>(CardService.allCards, cards).pipe(tap(cards => this.cardsInDeck.next(cards || [])));
+    alert(JSON.stringify(cards))
+    alert('in service"');
+    return this.dataStore.set<Card[]>(CardService.allCards, cards).pipe(tap(cards => {
+      alert(JSON.stringify(cards));
+      this.cardsInDeck.next(cards || []);
+    }
+    ));
   }
 
   private refreshCards() {

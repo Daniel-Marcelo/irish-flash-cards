@@ -22,6 +22,7 @@ export class CreateCardPage implements OnInit {
   }
 
   onSubmit() {
+    alert('submitting!');
     this.cardService.createCardInDeck(new Card(this.deckId, this.question, this.answer)).subscribe(
       cards => this.router.navigateByUrl('/decks/'+this.deckId)
     );

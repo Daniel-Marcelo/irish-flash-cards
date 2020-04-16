@@ -44,3 +44,6 @@ $font-lg: 20px;
 //     --ion-font-family: $primary_font;
 //     font-size: $primary-fs;
 // }
+.button-inner {
+    flex-flow: column;
+  }

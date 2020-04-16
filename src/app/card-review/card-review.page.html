@@ -1,9 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>card-review</ion-title>
+    <ng-container *ngIf="deckName$ | async; let deckName else noName">
+      <ion-title>{{deckName}} Review</ion-title>
+    </ng-container>
+    <ng-template #noName>
+      <ion-title>Review</ion-title>
+    </ng-template>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ng-container *ngIf="card$ | async; let card">
+
+    <div class="card-flip-container">
+      <card-flip [front]="card.question" [back]="card.answer" (flippedChange)="flipped = true"></card-flip>
+    </div>
+
+    <div class="buttons-container" *ngIf="flipped">
+      <div>
+        <ion-button size="large" color="danger">
+          <div>
+            <span>V. Hard</span>
+            <span class="days">1 d</span>
+          </div>
+        </ion-button>
+        <ion-button size="large" color="warning">
+          <div>
+            <span>Hard</span>
+            <span class="days">3 d</span>
+          </div>
+        </ion-button>
+        <ion-button size="large" color="medium">
+          <div>
+            <span>Good</span>
+            <span class="days"> 2 w</span>
+          </div>
+        </ion-button>
+        <ion-button size="large" color="success">
+          <div>
+            <span>Easy</span>
+            <span class="days">1 m</span>
+          </div>
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>

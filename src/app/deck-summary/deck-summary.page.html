@@ -25,10 +25,9 @@
       </div>
     </div>
   </ng-container>
+  <ng-template #startStudying>
+    <div class="parent">
+      <ion-button expand="block" (click)="beginReview()">Start Studying</ion-button>
+    </div>
+  </ng-template>
 </ion-content>
-
-<ng-template #startStudying>
-  <div class="parent">
-    <ion-button expand="block" [routerLink]="['card-review']">Start Studying</ion-button>
-  </div>
-</ng-template>

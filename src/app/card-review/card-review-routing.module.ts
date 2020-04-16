@@ -5,7 +5,7 @@ import { CardReviewPage } from './card-review.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':cardId',
     component: CardReviewPage
   }
 ];

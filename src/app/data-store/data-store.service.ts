@@ -7,7 +7,8 @@ import { from, Observable } from 'rxjs';
 })
 export class DataStoreService {
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: Storage) { 
+  }
 
   set<T>(key: string, value: any):Observable<T> {
     return from(this.storage.set(key, value));
