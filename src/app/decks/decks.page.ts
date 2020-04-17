@@ -15,7 +15,11 @@ export class DecksPage implements OnInit {
   constructor(private deckService: DeckService) { }
 
   ngOnInit() {
-    this.decks$ = this.deckService.decks$;
+    this.decks$ = this.deckService.decks$ as any;
+
+    this.decks$.subscribe(
+      decks => console.log(decks)
+    )
   }
 
 }
