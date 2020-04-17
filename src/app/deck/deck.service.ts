@@ -21,7 +21,7 @@ export class DeckService {
   }
 
   createDeck(deckName: string): void {
-    const decks = this.getDecks();
+    const decks = this.decks.getValue() || [];
     decks.push({ name: deckName, id: uuidv4() });
     this.decks.next(decks);
 
@@ -35,15 +35,9 @@ export class DeckService {
   private loadAllDecks(): void {
     this.dataStore.get<Deck[]>(DeckService.allDecksKey).pipe(
       map(decks => decks || [])
-    ).subscribe(
-      dex => this.decks.next(dex)
-    );
+    ).subscribe(dex => this.decks.next(dex));
   }
-
-  private getDecks(): Deck[] {
-    return this.decks.getValue() || [];
-  }
-
+  
   private setAllDecks(decks: Deck[]): void {
     this.dataStore.set(DeckService.allDecksKey, decks).subscribe(console.log);
   }

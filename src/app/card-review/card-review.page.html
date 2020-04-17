@@ -14,30 +14,30 @@
   <ng-container *ngIf="card$ | async; let card">
 
     <div class="card-flip-container">
-      <card-flip [front]="card.question" [back]="card.answer" (flippedChange)="flipped = true"></card-flip>
+      <card-flip [flipped]="flipped" [front]="card.question" [back]="card.answer" (flippedChange)="flipped = true"></card-flip>
     </div>
 
     <div class="buttons-container" *ngIf="flipped">
       <div>
-        <ion-button size="large" color="danger">
+        <ion-button size="large" color="danger" (click)="reviewed('veryHard')">
           <div>
             <span>V. Hard</span>
             <span class="days">1 d</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="warning">
+        <ion-button size="large" color="warning" (click)="reviewed('hard')">
           <div>
             <span>Hard</span>
             <span class="days">3 d</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="medium">
+        <ion-button size="large" color="medium" (click)="reviewed('good')">
           <div>
             <span>Good</span>
             <span class="days"> 2 w</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="success">
+        <ion-button size="large" color="success" (click)="reviewed('easy')">
           <div>
             <span>Easy</span>
             <span class="days">1 m</span>

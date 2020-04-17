@@ -1,28 +1,51 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Card } from '../card/card.model';
 import { CardService } from '../card/card.service';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, first, distinctUntilChanged } from 'rxjs/operators';
+import { ReviewDifficulty } from './card-review.model';
+import { ReviewProcessorService } from '../review-processor/review-processor.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardReviewService {
 
-  public cards$: Observable<Card[]>;
-  private cardsToBeReviewed = new BehaviorSubject<Card[]>([]);
+  private cardsToBeReviewed: Card[] = [];
 
-  constructor(private cardService: CardService) {
-    this.cards$ = this.cardsToBeReviewed.asObservable().pipe(filter(cards => cards.length > 0));
+  public cardUnderReview$: Observable<Card>;
+  private cardUnderReview = new BehaviorSubject<Card>(null);
+
+  public reviewComplete$: Observable<void>;
+  private reviewComplete = new Subject<void>();
+
+  constructor(private cardService: CardService, private reviewProcessor: ReviewProcessorService, private router: Router) {
+    this.cardUnderReview$ = this.cardUnderReview.asObservable().pipe(filter(card => !!card))
   }
 
-  getCardToReview(cardNo: string): Observable<Card> {
-    return this.cards$.pipe(map(cards => cards[+cardNo]));
+  getNextCard() {
+    const [firstCard, ...cards] = this.cardsToBeReviewed;
+    this.cardUnderReview.next(firstCard);
+    this.cardsToBeReviewed = cards || [];
   }
 
-  beginReview(deckId: string): void {
-    this.cardService.getCardsInDeck(deckId).subscribe(
-      cards => this.cardsToBeReviewed.next(cards || [])
+  loadCardsForReview(deckId: string): Observable<Card[]> {
+   return this.cardService.getCardsInDeck(deckId).pipe(
+      map(cards => this.cardsToBeReviewed = cards || [])
     );
+  }
+
+  reviewed(level: ReviewDifficulty) {
+    this.reviewProcessor.processCardReview(this.cardUnderReview.getValue(), level);
+    if (this.noCardsToReview()) {
+      this.router.navigateByUrl(this.router.url + '/review-summary')
+    } else {
+      this.getNextCard();
+    }
+  }
+
+  private noCardsToReview() {
+    return this.cardsToBeReviewed.length === 0;
   }
 }

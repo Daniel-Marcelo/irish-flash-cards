@@ -13,6 +13,7 @@ export class CardFlipComponent {
   @Input()
   back = '';
 
+  @Input()
   flipped = false;
 
   @Output()

@@ -5,9 +5,13 @@ import { CardReviewPage } from './card-review.page';
 
 const routes: Routes = [
   {
-    path: ':cardId',
+    path: '',
     component: CardReviewPage
-  }
+  },
+  {
+    path: 'review-summary',
+    loadChildren: () => import('../review-summary/review-summary/review-summary.module').then( m => m.ReviewSummaryPageModule)
+  },
 ];
 
 @NgModule({

@@ -18,23 +18,18 @@ export class CardService {
   }
 
   getCardsInDeck(deckId: string): Observable<Card[]> {
-    this.refreshCards();
     return this.cardsInDeck$.pipe(map(cards => cards.filter(card => card.deckId === deckId)));
   }
 
   createCardInDeck(card: Card) {
     const cards = this.cardsInDeck.getValue();
     cards.push(card);
-    alert(JSON.stringify(cards))
-    alert('in service"');
-    return this.dataStore.set<Card[]>(CardService.allCards, cards).pipe(tap(cards => {
-      alert(JSON.stringify(cards));
-      this.cardsInDeck.next(cards || []);
-    }
-    ));
+    return this.dataStore.set<Card[]>(CardService.allCards, cards).pipe(
+      tap(cards => this.cardsInDeck.next(cards || []))
+    );
   }
 
-  private refreshCards() {
+  refreshCards() {
     this.dataStore.get<Card[]>(CardService.allCards).subscribe(
       cards => this.cardsInDeck.next(cards || [])
     );

@@ -17,16 +17,16 @@ export class DeckSummaryPage implements OnInit {
   private deckId: string;
   deck$: Observable<Deck>
   cards$: Observable<Card[]>
-  constructor(private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService, private cardReviewService: CardReviewService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { }
 
   ngOnInit(): void {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
     this.deck$ = this.deckService.deckById$(this.deckId);
     this.cards$ = this.cardService.getCardsInDeck(this.deckId);
+    this.cardService.refreshCards();
   }
 
   beginReview(): void {
-    this.cardReviewService.beginReview(this.deckId);
-    this.router.navigateByUrl(this.router.url+'/card-review/0');
+    this.router.navigateByUrl(this.router.url+'/card-review');
   }
 }
