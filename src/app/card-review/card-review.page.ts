@@ -24,7 +24,7 @@ export class CardReviewPage extends Unsubscribe implements OnInit {
 
   ngOnInit(): void { 
     const deckId = this.route.snapshot.paramMap.get('deckId');
-    this.deckName$ = this.deckService.deckById$(deckId).pipe(map(deck => deck.name));
+    this.deckName$ = this.deckService.getDeck(deckId).pipe(map(deck => deck.name));
     this.card$ = this.cardReviewService.cardUnderReview$;
     this.cardReviewService.loadCardsForReview(deckId).subscribe(
       cards => this.cardReviewService.getNextCard()

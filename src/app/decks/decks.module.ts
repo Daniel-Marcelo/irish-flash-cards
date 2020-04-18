@@ -8,6 +8,8 @@ import { DecksPageRoutingModule } from './decks-routing.module';
 
 import { DecksPage } from './decks.page';
 import { DeckSummaryPageModule } from '../deck-summary/deck-summary.module';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { DeleteCardVerificationComponent } from '../delete-card-verification/delete-card-verification.component';
 
 @NgModule({
   imports: [
@@ -17,6 +19,8 @@ import { DeckSummaryPageModule } from '../deck-summary/deck-summary.module';
     DecksPageRoutingModule,
     DeckSummaryPageModule
   ],
-  declarations: [DecksPage]
+  entryComponents: [DeleteCardVerificationComponent],
+  declarations: [DecksPage, DeleteCardVerificationComponent],
+  providers: [Dialogs]
 })
 export class DecksPageModule {}

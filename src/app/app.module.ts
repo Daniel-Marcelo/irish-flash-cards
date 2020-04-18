@@ -10,8 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
 import { firebase } from 'src/environments/firebase';
 @NgModule({
   declarations: [AppComponent],

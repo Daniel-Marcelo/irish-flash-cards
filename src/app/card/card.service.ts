@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataStoreService } from '../data-store/data-store.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Card } from './card.model';
-import { filter, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

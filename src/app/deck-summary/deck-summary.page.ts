@@ -21,7 +21,7 @@ export class DeckSummaryPage implements OnInit {
 
   ngOnInit(): void {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
-    this.deck$ = this.deckService.deckById$(this.deckId);
+    this.deck$ = this.deckService.getDeck(this.deckId);
     this.cards$ = this.cardService.getCardsInDeck(this.deckId);
     this.cardService.refreshCards();
   }

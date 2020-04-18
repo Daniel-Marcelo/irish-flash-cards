@@ -13,7 +13,6 @@ export class DeckService {
 
   private deckCollection: AngularFirestoreCollection<Deck>;
   public readonly decks$: Observable<Deck[]>;
-  // private decks = new BehaviorSubject<Deck[]>(null);
 
   constructor(private dataStore: DataStoreService, private db: AngularFirestore) {
     this.deckCollection = this.db.collection<Deck>('decks');
@@ -29,12 +28,20 @@ export class DeckService {
     );
   }
 
-  createDeck(deckName: string) {
-    return this.deckCollection.add({ name: deckName, id: uuidv4() });
+  createDeck(name: string) {
+    return this.deckCollection.add({ name });
   }
 
-  deckById$(id: string): Observable<Deck> {
-    return of({} as any)
+  getDeck(id: string) {
+    return this.deckCollection.doc<Deck>(id).valueChanges();
+  }
+
+  updateDeck(name: string, id: string) {
+    return this.deckCollection.doc<Deck>(id).update({ name });
+  }
+
+  deleteDeck(id: string) {
+    return this.deckCollection.doc<Deck>(id).delete();
   }
 
   // private loadAllDecks(): void {
