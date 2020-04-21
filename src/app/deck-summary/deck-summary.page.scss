@@ -1,12 +1,17 @@
-.parent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    flex-direction: column;
-  }
+// .parent {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     height: 100%;
+//     flex-direction: column;
+//   }
 
 .create-card {
       display: block;
       margin-top: 15px;
+}
+.parent {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }

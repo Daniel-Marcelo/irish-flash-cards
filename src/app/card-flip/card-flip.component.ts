@@ -19,7 +19,6 @@ export class CardFlipComponent {
   @Output()
   flippedChange = new EventEmitter<boolean>();
   
-
   onClick(): void {
     this.flipped = !this.flipped;
     this.flippedChange.next(this.flipped);

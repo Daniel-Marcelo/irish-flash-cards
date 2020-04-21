@@ -23,6 +23,15 @@ const routes: Routes = [
     path: 'create-deck',
     loadChildren: () => import('./create-deck/create-deck.module').then( m => m.CreateDeckPageModule)
   },
+  {
+    path: 'create-deck/:parentDeckId',
+    loadChildren: () => import('./create-deck/create-deck.module').then( m => m.CreateDeckPageModule)
+  },
+  {
+    path: 'edit-deck/:deckId',
+    loadChildren: () => import('./pages/edit-deck/edit-deck.module').then( m => m.EditDeckPageModule)
+  },
+
 ];
 
 @NgModule({

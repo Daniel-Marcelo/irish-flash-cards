@@ -16,11 +16,10 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <form #createDeckForm="ngForm" (ngSubmit)="onSubmit()">
     <ion-item class="deck-name">
       <ion-label position="floating">Deck Name</ion-label>
-      <ion-input required [(ngModel)]="deckName" name="deckName"></ion-input>
+      <ion-input required [(ngModel)]="deck.name" name="deckName"></ion-input>
     </ion-item>
 
       <ion-button [disabled]="!createDeckForm.form.valid" type="submit" expand="block">Create Deck</ion-button>

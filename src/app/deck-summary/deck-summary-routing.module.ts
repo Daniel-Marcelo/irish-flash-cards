@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('../create-card/create-card.module').then( m => m.CreateCardPageModule)
   },
   {
-    path: ':deckId/card-review',
+    path: ':deckId/card-review/:cardId',
     loadChildren: () => import('../card-review/card-review.module').then( m => m.CardReviewPageModule)
   }
 ];

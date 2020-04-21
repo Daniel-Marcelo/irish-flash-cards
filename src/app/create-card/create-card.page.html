@@ -28,10 +28,7 @@
       <ion-input required [(ngModel)]="answer" name="answer"></ion-input>
     </ion-item>
 
-    <label position="floating">
-      <input type="checkbox" /> Test Both Sides
-    </label>
-
-    <ion-button [disabled]="!createCardForm.form.valid" type="submit" expand="block">Create Card</ion-button>
+    <ion-button *ngIf="!cardId" [disabled]="!createCardForm.form.valid" type="submit" expand="block">Create Card</ion-button>
+    <ion-button *ngIf="cardId" [disabled]="!createCardForm.form.valid" type="submit" expand="block">Update Card</ion-button>
   </form>
 </ion-content>

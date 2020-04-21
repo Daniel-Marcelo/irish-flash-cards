@@ -6,13 +6,15 @@ import { IonicModule } from '@ionic/angular';
 
 import { DeckSummaryPage } from './deck-summary.page';
 import { DeckSummaryRoutingModule } from './deck-summary-routing.module';
+import { DecksListModule } from '../components/decks-list/decks-list.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DeckSummaryRoutingModule
+    DeckSummaryRoutingModule,
+    DecksListModule
   ],
   declarations: [DeckSummaryPage]
 })

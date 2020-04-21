@@ -8,13 +8,15 @@ import { CardReviewPageRoutingModule } from './card-review-routing.module';
 
 import { CardReviewPage } from './card-review.page';
 import { CardFlipComponent } from '../card-flip/card-flip.component';
+import { DeckNameTitleModule } from '../components/deck-name-title/deck-name-title.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CardReviewPageRoutingModule
+    CardReviewPageRoutingModule,
+    DeckNameTitleModule
   ],
   declarations: [CardReviewPage, CardFlipComponent]
 })

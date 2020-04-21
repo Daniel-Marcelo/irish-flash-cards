@@ -1,51 +1,72 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Card } from '../card/card.model';
+import { Observable } from 'rxjs';
+import { CardDoc } from '../card/card.model';
 import { CardService } from '../card/card.service';
-import { map, filter, first, distinctUntilChanged } from 'rxjs/operators';
-import { ReviewDifficulty } from './card-review.model';
-import { ReviewProcessorService } from '../review-processor/review-processor.service';
+import { map } from 'rxjs/operators';
+import { ReviewDifficulty, CardReview } from './card-review.model';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreCollection } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardReviewService {
 
-  private cardsToBeReviewed: Card[] = [];
+  public reviews$: Observable<CardReview[]>;
+  private reviewCollection: AngularFirestoreCollection<CardReview>;
 
-  public cardUnderReview$: Observable<Card>;
-  private cardUnderReview = new BehaviorSubject<Card>(null);
+  private cardsToBeReviewed: CardDoc[] = [];
 
-  public reviewComplete$: Observable<void>;
-  private reviewComplete = new Subject<void>();
-
-  constructor(private cardService: CardService, private reviewProcessor: ReviewProcessorService, private router: Router) {
-    this.cardUnderReview$ = this.cardUnderReview.asObservable().pipe(filter(card => !!card))
-  }
-
-  getNextCard() {
-    const [firstCard, ...cards] = this.cardsToBeReviewed;
-    this.cardUnderReview.next(firstCard);
-    this.cardsToBeReviewed = cards || [];
-  }
-
-  loadCardsForReview(deckId: string): Observable<Card[]> {
-   return this.cardService.getCardsInDeck(deckId).pipe(
-      map(cards => this.cardsToBeReviewed = cards || [])
+  constructor(private db: AngularFirestore, private cardService: CardService, private router: Router) {
+    this.reviewCollection = this.db.collection<CardReview>('cardReview');
+    this.reviews$ = this.reviewCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
     );
   }
 
-  reviewed(level: ReviewDifficulty) {
-    this.reviewProcessor.processCardReview(this.cardUnderReview.getValue(), level);
-    if (this.noCardsToReview()) {
-      this.router.navigateByUrl(this.router.url + '/review-summary')
-    } else {
-      this.getNextCard();
-    }
+  getCardForReview() {
+    const [cardToReview, ...remainingCards] = this.cardsToBeReviewed;
+    this.cardsToBeReviewed = remainingCards;
+    return cardToReview;
   }
 
-  private noCardsToReview() {
-    return this.cardsToBeReviewed.length === 0;
+  loadCardsForReview(deckId: string) {
+    return this.cardService.getCardsInDeck(deckId).pipe(map(
+            cards => this.cardsToBeReviewed = cards || []
+    ));
+  }
+
+  getReview(id: string) {
+    return this.reviewCollection.doc<CardReview>(id).valueChanges();
+  }
+
+  createReview(review: CardReview) {
+    return this.reviewCollection.add(review);
+  }
+
+  updateReview(review: CardReview, id: string) {
+    return this.reviewCollection.doc<CardReview>(id).update(review);
+  }
+
+  deleteReview(id: string) {
+    return this.reviewCollection.doc<CardReview>(id).delete();
+  }
+
+  reviewed(card: CardDoc, level: ReviewDifficulty) {
+    const review = { cardId: card.id, date: new Date(), level } as CardReview;
+    this.createReview(review);
+
+    if (this.cardsToBeReviewed.length === 0) {
+      this.router.navigateByUrl('/decks');
+    } else {
+      this.router.navigateByUrl(this.router.url.replace(`card-review/${card.id}`,`card-review/${this.cardsToBeReviewed[0].id}`));
+    }
   }
 }

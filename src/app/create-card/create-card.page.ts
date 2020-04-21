@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture/ngx';
+import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
 import { CardService } from '../card/card.service';
-import { Card } from '../card/card.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeckService } from '../deck/deck.service';
 
 @Component({
   selector: 'app-create-card',
@@ -14,17 +14,25 @@ export class CreateCardPage implements OnInit {
   question: string;
   answer: string;
   deckId: string;
+  cardId: string;
 
-  constructor(private mediaCapture: MediaCapture, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.cardId = this.route.snapshot.paramMap.get('cardId');
     this.deckId = this.route.snapshot.paramMap.get('deckId');
   }
 
   onSubmit() {
-    this.cardService.createCardInDeck(new Card(this.deckId, this.question, this.answer)).subscribe(
-      cards => this.router.navigateByUrl('/decks/'+this.deckId)
-    );
+    if(this.cardId) {
+      this.cardService.update({ deckIds: Array.from(this.deckService.selectedDeckIds), question: this.question, answer: this.answer}, this.cardId).then(
+        doc => this.router.navigateByUrl('/decks/'+this.deckId)
+      )
+    } else {
+      this.cardService.create({ deckIds: Array.from(this.deckService.selectedDeckIds), question: this.question, answer: this.answer}).then(
+        cards => this.router.navigateByUrl('/decks/'+this.deckId)
+      );
+    }
   }
 
   pickImage() {

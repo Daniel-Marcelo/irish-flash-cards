@@ -1,11 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ng-container *ngIf="deckName$ | async; let deckName else noName">
+    <!-- <ng-container *ngIf="deckName$ | async; let deckName else noName">
       <ion-title>{{deckName}} Review</ion-title>
     </ng-container>
     <ng-template #noName>
       <ion-title>Review</ion-title>
-    </ng-template>
+    </ng-template> -->
+    <ion-title><app-deck-name-title></app-deck-name-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,25 +20,25 @@
 
     <div class="buttons-container" *ngIf="flipped">
       <div>
-        <ion-button size="large" color="danger" (click)="reviewed('veryHard')">
+        <ion-button size="large" color="danger" (click)="reviewed(card, 'veryHard')">
           <div>
             <span>V. Hard</span>
             <span class="days">1 d</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="warning" (click)="reviewed('hard')">
+        <ion-button size="large" color="warning" (click)="reviewed(card, 'hard')">
           <div>
             <span>Hard</span>
             <span class="days">3 d</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="medium" (click)="reviewed('good')">
+        <ion-button size="large" color="medium" (click)="reviewed(card, 'good')">
           <div>
             <span>Good</span>
             <span class="days"> 2 w</span>
           </div>
         </ion-button>
-        <ion-button size="large" color="success" (click)="reviewed('easy')">
+        <ion-button size="large" color="success" (click)="reviewed(card, 'easy')">
           <div>
             <span>Easy</span>
             <span class="days">1 m</span>

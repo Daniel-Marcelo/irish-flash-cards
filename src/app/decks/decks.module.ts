@@ -10,6 +10,7 @@ import { DecksPage } from './decks.page';
 import { DeckSummaryPageModule } from '../deck-summary/deck-summary.module';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { DeleteCardVerificationComponent } from '../delete-card-verification/delete-card-verification.component';
+  import { DecksListModule } from '../components/decks-list/decks-list.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { DeleteCardVerificationComponent } from '../delete-card-verification/del
     FormsModule,
     IonicModule,
     DecksPageRoutingModule,
-    DeckSummaryPageModule
+    DeckSummaryPageModule,
+    DecksListModule
   ],
   entryComponents: [DeleteCardVerificationComponent],
   declarations: [DecksPage, DeleteCardVerificationComponent],

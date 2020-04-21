@@ -5,20 +5,18 @@
     </ion-buttons>
     <ion-title>Decks</ion-title>
     <ion-buttons slot="primary">
-      <ion-button routerLink="/create-deck">
+      <ion-button routerLink="/create-deck" [queryParams]="{ type: 'parent'}">
         <ion-icon slot="icon-only" name="create-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar> 
+    <ion-searchbar animated></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ng-container *ngIf="decks$ | async; let decks">
-    <ion-list>
-        <ion-item *ngFor="let deck of decks" [routerLink]="[deck.id]">
-        <ion-icon color="danger" (click)="delete(deck.id); $event.stopPropagation(); $event.preventDefault()" class="trash" slot="end" name="trash-sharp"></ion-icon>
-        <ion-label>{{deck.name}}</ion-label>
-      </ion-item>
-    </ion-list>
+    <decks-list [decks]="decks"></decks-list>
   </ng-container>
 </ion-content>

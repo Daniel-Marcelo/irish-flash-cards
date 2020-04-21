@@ -3,16 +3,32 @@
     <ng-container *ngIf="deck$ | async; let deck">
       <ion-title>{{deck.name}}</ion-title>
     </ng-container>
-    <ion-buttons slot="end">
+    <ion-buttons slot="start">
       <ion-button routerLink="/decks">
         <ion-icon name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="beginReview()">
+        <ion-icon color="primary" name="book" style="margin-right: 10px"></ion-icon>
+        Review
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment value="decks" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="decks">
+        <ion-label>Decks</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cards">
+        <ion-label>Cards</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="cards$ | async; let cards">
+  <!-- <ng-container *ngIf="cards$ | async; let cards">
     <div class="parent" *ngIf="cards?.length === 0; else startStudying">
       <div>Start Learning</div>
       <div>
@@ -24,7 +40,28 @@
     <div class="parent">
       <ion-button expand="block" (click)="beginReview()">Start Studying</ion-button>
     </div>
-  </ng-template>
+  </ng-template> -->
+  <ng-container *ngIf="!cardsView">
+    <ng-container *ngIf="decks$ | async; let decks">
+      <decks-list [decks]="decks"></decks-list>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="cardsView">
+    <ng-container *ngIf="cards$ | async; let cards">
+      <div class="parent">
+        <!-- <ion-button (click)="beginReview()">Start Studying</ion-button> -->
+        <ion-searchbar></ion-searchbar>
+      </div>
+      <ion-list>
+        <ion-item *ngFor="let card of cards">
+          <ion-icon color="primary" slot="start" name="create" (click)="editCard(card, $event)"></ion-icon>
+          <ion-icon color="danger" (click)="delete(card.id);" class="trash" slot="end" name="trash"></ion-icon>
+          <ion-label>{{card.question}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </ng-container>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
@@ -32,7 +69,7 @@
     </ion-fab-button>
 
     <ion-fab-list side="top">
-      <ion-fab-button>
+      <ion-fab-button [routerLink]="['/create-deck/', deckId]">
         <ion-icon name="albums-outline"></ion-icon>
       </ion-fab-button>
       <ion-fab-button routerLink="create-card">
