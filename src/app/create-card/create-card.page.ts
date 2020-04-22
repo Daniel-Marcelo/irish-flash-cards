@@ -4,6 +4,7 @@ import { CardService } from '../card/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeckService } from '../deck/deck.service';
 import { Location } from '@angular/common';
+import { DeckContextService } from '../services/deck-context.service';
 
 @Component({
   selector: 'app-create-card',
@@ -16,14 +17,14 @@ export class CreateCardPage implements OnInit {
   answer: string;
   deckId: string;
 
-  constructor(private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private deckContextService: DeckContextService, private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
   }
 
   onSubmit() {
-      this.cardService.create({ deckIds: Array.from(this.deckService.selectedDeckIds), question: this.question, answer: this.answer}).then(
+      this.cardService.create({ deckIds: Array.from(this.deckContextService.selectedDeckIds), question: this.question, answer: this.answer}).then(
         cards => this.location.back()
       );
   }

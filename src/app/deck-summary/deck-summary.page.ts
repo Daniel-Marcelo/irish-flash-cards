@@ -11,6 +11,7 @@ import { takeUntil, take } from 'rxjs/operators';
 import { DeleteCardVerificationComponent } from '../delete-card-verification/delete-card-verification.component';
 import { PopoverController } from '@ionic/angular';
 import { Doc } from '../base-firestore';
+import { DeckContextService } from '../services/deck-context.service';
 
 @Component({
   selector: 'app-deck-summary',
@@ -25,13 +26,13 @@ export class DeckSummaryPage extends Unsubscribe implements OnInit {
   decks$: Observable<Deck[]>
   cards$: Observable<CardDoc[]>;
 
-  constructor(private popoverController: PopoverController, private cardReviewService: CardReviewService, private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { 
+  constructor(private deckContextService: DeckContextService, private popoverController: PopoverController, private cardReviewService: CardReviewService, private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { 
     super();
   }
 
   ngOnInit(): void {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
-    this.deckService.selectedDeckIds.add(this.deckId);
+    this.deckContextService.selectedDeckIds.add(this.deckId);
     this.deck$ = this.deckService.getDeck(this.deckId);
     this.decks$ = this.deckService.getDecksByParentDeckId(this.deckId);
     this.cards$ = this.cardService.getCardsInDeck(this.deckId);

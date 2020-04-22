@@ -1,8 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ng-container *ngIf="deck$ | async; let deck">
-      <ion-title>{{deck.name}}</ion-title>
-    </ng-container>
+      <ion-title><app-deck-name-title></app-deck-name-title></ion-title>
     <ion-buttons slot="start">
       <ion-button routerLink="/decks">
         <ion-icon name="home-outline"></ion-icon>

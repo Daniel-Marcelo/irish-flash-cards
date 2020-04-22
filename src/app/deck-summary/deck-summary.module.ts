@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DeckSummaryPage } from './deck-summary.page';
 import { DeckSummaryRoutingModule } from './deck-summary-routing.module';
 import { DecksListModule } from '../components/decks-list/decks-list.module';
+import { DeckNameTitleModule } from '../components/deck-name-title/deck-name-title.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { DecksListModule } from '../components/decks-list/decks-list.module';
     FormsModule,
     IonicModule,
     DeckSummaryRoutingModule,
-    DecksListModule
+    DecksListModule,
+    DeckNameTitleModule
   ],
   declarations: [DeckSummaryPage]
 })

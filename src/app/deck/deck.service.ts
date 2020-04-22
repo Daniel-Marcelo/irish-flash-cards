@@ -14,8 +14,6 @@ export class DeckService {
   private deckCollection: AngularFirestoreCollection<Deck>;
   public readonly decks$: Observable<Deck[]>;
 
-  public selectedDeckIds = new Set<string>();
-
   constructor(private db: AngularFirestore, private location: Location, private router: Router) {
     this.deckCollection = this.db.collection<Deck>('deck');
 
