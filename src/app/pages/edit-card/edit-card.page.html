@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit a Flash Card</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #editCardForm="ngForm" (ngSubmit)="onSubmit()">
+
+    <div class="select-image-container">
+      <span (click)="pickImage()">
+        <ion-icon size="large" name="image-outline"></ion-icon>
+      </span>
+
+      <span (click)="recordAudio()">
+        <ion-icon size="large" name="mic-outline"></ion-icon>
+      </span>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Question</ion-label>
+      <ion-input required [(ngModel)]="card.question" name="question"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Answer</ion-label>
+      <ion-input required [(ngModel)]="card.answer" name="answer"></ion-input>
+    </ion-item>
+
+    <ion-button [disabled]="!editCardForm.form.valid" type="submit" expand="block">Update Card</ion-button>
+  </form>
+</ion-content>

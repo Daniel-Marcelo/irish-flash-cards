@@ -1,0 +1,11 @@
+<ng-container *ngIf="decks?.length > 0">
+  <ion-list>
+    <ng-container *ngFor="let deck of decks">
+    <ion-item *ngIf="isVisible(deck.name)" [routerLink]="['/decks/', deck.id]">
+      <ion-icon color="primary" slot="start" name="create" (click)="editDeck(deck, $event)"></ion-icon>
+      <ion-icon color="danger" (click)="delete(deck.id);" class="trash" slot="end" name="trash"></ion-icon>
+      <ion-label>{{deck.name}}</ion-label>
+    </ion-item>
+  </ng-container>
+  </ion-list>
+</ng-container>
