@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PopoverController, NavParams, LoadingController } from '@ionic/angular';
 import { DeckService } from '../deck/deck.service';
+import { CardService } from '../card/card.service';
 
 @Component({
   selector: 'app-delete-card-verification',
@@ -9,7 +10,7 @@ import { DeckService } from '../deck/deck.service';
 })
 export class DeleteCardVerificationComponent {
 
-  constructor(private loadingController: LoadingController, private deckService: DeckService, private navParams: NavParams, private popoverController: PopoverController) { }
+  constructor(private cardService: CardService, private loadingController: LoadingController, private deckService: DeckService, private navParams: NavParams, private popoverController: PopoverController) { }
 
   async delete() {
     await this.close();
@@ -17,9 +18,15 @@ export class DeleteCardVerificationComponent {
       message: 'Deleting',
     });
     await loading.present();
-    this.deckService.deleteDeck(this.navParams.data.id).then(
-      () => loading.dismiss()
-    );
+    if (this.navParams.data.type === 'card') {
+      this.cardService.delete(this.navParams.data.id).then(
+        () => loading.dismiss()
+      )
+    } else {
+      this.deckService.deleteDeck(this.navParams.data.id).then(
+        () => loading.dismiss()
+      );
+    }
   }
 
   async close() {

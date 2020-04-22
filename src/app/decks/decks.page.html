@@ -6,17 +6,17 @@
     <ion-title>Decks</ion-title>
     <ion-buttons slot="primary">
       <ion-button routerLink="/create-deck" [queryParams]="{ type: 'parent'}">
-        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar> 
-    <ion-searchbar animated></ion-searchbar>
+    <ion-searchbar animated autocomplete="on" autocorrect="on" inputmode="text" type="text" placeholder="Search decks" spellcheck="true" (ionInput)="filterText = $event.detail.target.value"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ng-container *ngIf="decks$ | async; let decks">
-    <decks-list [decks]="decks"></decks-list>
+    <decks-list [decks]="decks" [filterText]="filterText"></decks-list>
   </ng-container>
 </ion-content>

@@ -11,11 +11,16 @@ import { DeckService } from '../deck/deck.service';
 export class DecksPage implements OnInit {
 
   decks$: Observable<Deck[]>;
+  filterText: string;
 
   constructor(private deckService: DeckService) { }
 
   ngOnInit() {
     this.decks$ = this.deckService.getParentDecks();
     this.deckService.selectedDeckIds = new Set();
+  }
+
+  search(event: CustomEvent) {
+    console.log(event.detail.target.value);
   }
 }

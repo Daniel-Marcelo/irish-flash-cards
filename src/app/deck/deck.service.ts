@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Deck } from './deck.model';
-import { map } from 'rxjs/operators';
+import { map, filter, take, pairwise } from 'rxjs/operators';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { Location } from '@angular/common';
+import { Router, NavigationEnd, RoutesRecognized } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +16,31 @@ export class DeckService {
 
   public selectedDeckIds = new Set<string>();
 
-  constructor(private db: AngularFirestore) {
+  constructor(private db: AngularFirestore, private location: Location, private router: Router) {
     this.deckCollection = this.db.collection<Deck>('deck');
 
     this.decks$ = this.deckCollection.snapshotChanges().pipe(
       mapResponseWithId()
     );
+
+    this.location.subscribe(
+      event => {
+        this.router.events
+        .pipe(filter((e: any) => e instanceof RoutesRecognized),
+            pairwise(), 
+        ).subscribe((e: any) => {
+            console.log(e[0].urlAfterRedirects); // previous url
+        });
+      }
+    )
   }
 
   getParentDecks() {
-    return this.db.collection<Deck>('deck', ref => ref.where('parentDeckId', '==', null)).valueChanges({idField: 'id'});
+    return this.db.collection<Deck>('deck', ref => ref.where('parentDeckId', '==', null)).valueChanges({ idField: 'id' });
   }
 
   getDecksByParentDeckId(parentDeckId: string) {
-    return this.db.collection<Deck>('deck', ref => ref.where('parentDeckId', '==', parentDeckId)).valueChanges({idField: 'id'});
+    return this.db.collection<Deck>('deck', ref => ref.where('parentDeckId', '==', parentDeckId)).valueChanges({ idField: 'id' });
   }
 
   createDeck(deck: Deck) {

@@ -8,6 +8,9 @@ import { CardService } from '../card/card.service';
 import { CardReviewService } from '../card-review/card-review.service';
 import { Unsubscribe } from '../unsubscribe';
 import { takeUntil, take } from 'rxjs/operators';
+import { DeleteCardVerificationComponent } from '../delete-card-verification/delete-card-verification.component';
+import { PopoverController } from '@ionic/angular';
+import { Doc } from '../base-firestore';
 
 @Component({
   selector: 'app-deck-summary',
@@ -17,12 +20,12 @@ import { takeUntil, take } from 'rxjs/operators';
 export class DeckSummaryPage extends Unsubscribe implements OnInit {
   
   private deckId: string;
-  cardsView = false;
+  cardsView = true;
   deck$: Observable<Deck>
   decks$: Observable<Deck[]>
   cards$: Observable<CardDoc[]>;
 
-  constructor(private cardReviewService: CardReviewService, private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { 
+  constructor(private popoverController: PopoverController, private cardReviewService: CardReviewService, private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { 
     super();
   }
 
@@ -46,5 +49,22 @@ export class DeckSummaryPage extends Unsubscribe implements OnInit {
 
   segmentChanged(event: CustomEvent) {
     this.cardsView = event.detail.value === 'cards';
+  }
+
+  async delete(id: string) {
+    event.stopPropagation();
+    event.preventDefault();
+    const popover = await this.popoverController.create({
+      component: DeleteCardVerificationComponent,
+      componentProps: { id, type: 'card' },
+      translucent: true,
+    });
+    return await popover.present(); 
+  }
+
+  editCard(card: Doc<Card>, event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.router.navigateByUrl('/edit-card/'+card.id);
   }
 }

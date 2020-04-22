@@ -31,7 +31,10 @@ const routes: Routes = [
     path: 'edit-deck/:deckId',
     loadChildren: () => import('./pages/edit-deck/edit-deck.module').then( m => m.EditDeckPageModule)
   },
-
+  {
+    path: 'edit-card/:cardId',
+    loadChildren: () => import('./pages/edit-card/edit-card.module').then( m => m.EditCardPageModule)
+  },
 ];
 
 @NgModule({

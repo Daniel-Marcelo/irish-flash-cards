@@ -25,7 +25,7 @@ export class CreateDeckPage implements OnInit {
     await loading.present();
     this.deckService.createDeck(this.deck).then(doc => {
       this.loadingController.dismiss();
-      this.router.navigateByUrl('/decks');
+      this.router.navigateByUrl('/decks/'+doc.id);
     });
   }
 }
