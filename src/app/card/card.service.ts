@@ -3,6 +3,8 @@ import { Card, CardDoc } from './card.model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BaseFirestore } from '../base-firestore';
 import { Observable } from 'rxjs';
+import { DeckService } from '../deck/deck.service';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

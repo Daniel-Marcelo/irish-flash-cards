@@ -26,7 +26,7 @@ export abstract class BaseFirestore<T> {
     get(id: string): Observable<T> {
         return this.collection.doc<T>(id).valueChanges();
     }
-
+    
     create(item: T): Promise<DocumentReference> {
         return this.collection.add(item);
     }

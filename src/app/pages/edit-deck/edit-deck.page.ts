@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Deck } from 'src/app/deck/deck.model';
+import { Deck, newDeck } from 'src/app/deck/deck.model';
 import { DeckService } from 'src/app/deck/deck.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class EditDeckPage implements OnInit {
 
-  deck: Deck = { name: '', parentDeckId: '' };
+  deck = newDeck();
   private deckId: string;
 
   constructor(private deckService: DeckService, private router: Router, private route: ActivatedRoute, private loadingController: LoadingController) { }

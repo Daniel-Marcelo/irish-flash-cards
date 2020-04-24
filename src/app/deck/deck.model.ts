@@ -1,10 +1,11 @@
 export interface Deck {
     name: string;
-    parentDeckId: string | null;
+    parentDeckIds: string[] | null;
+    immediateParentDeckId: string | null;
 }
+
+export const newDeck = () => ({ name: '', parentDeckIds: null, immediateParentDeckId: null} as Deck)
 
 export interface DeckDoc extends Deck {
     id: string;
 }
-
-export const isExistingDeck = (deck: Deck | DeckDoc): deck is DeckDoc => !!(deck as DeckDoc).id 

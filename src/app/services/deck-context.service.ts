@@ -9,11 +9,10 @@ export class DeckContextService {
 
   constructor(private router: Router) {
 
-    router.events.subscribe( (event) => {
-        if (event instanceof NavigationEnd) {
-          console.log(event);
-        }
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        console.log(event);
+      }
     });
-
-}
+  }
 }

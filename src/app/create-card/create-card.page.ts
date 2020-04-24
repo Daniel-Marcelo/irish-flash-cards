@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeckService } from '../deck/deck.service';
 import { Location } from '@angular/common';
 import { DeckContextService } from '../services/deck-context.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-card',
@@ -23,14 +24,19 @@ export class CreateCardPage implements OnInit {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
   }
 
-  onSubmit() {
-      this.cardService.create({ deckIds: Array.from(this.deckContextService.selectedDeckIds), question: this.question, answer: this.answer}).then(
-        cards => this.location.back()
-      );
+  async onSubmit() {
+    const deck = await this.deckService.getDeck(this.deckId).toPromise();
+    const parentDeckIds  = [...deck.parentDeckIds, this.deckId];
+    const card = await this.cardService.create({immediateParentDeckId: this.deckId, question: this.question, answer: this.answer, deckIds: parentDeckIds});
+    this.location.back();
   }
 
   pickImage() {
-    alert('image!');
+    this.mediaCapture.captureImage().then(
+      (data: MediaFile[]) => {
+        alert('data '+ JSON.stringify(data))
+      },
+      (err: CaptureError) => console.error(err));
   }
 
   recordAudio() {

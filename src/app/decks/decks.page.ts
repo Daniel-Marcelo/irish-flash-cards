@@ -16,12 +16,8 @@ export class DecksPage implements OnInit {
 
   constructor(private deckService: DeckService, private deckContextService: DeckContextService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.decks$ = this.deckService.getParentDecks();
     this.deckContextService.selectedDeckIds = new Set();
-  }
-
-  search(event: CustomEvent) {
-    console.log(event.detail.target.value);
   }
 }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DeckService } from '../deck/deck.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { Deck, } from '../deck/deck.model';
+import { Deck, newDeck, } from '../deck/deck.model';
+import { take, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-deck',
@@ -11,22 +12,22 @@ import { Deck, } from '../deck/deck.model';
 })
 export class CreateDeckPage implements OnInit {
 
-  deck: Deck = { name: '', parentDeckId: null };
+  deck = newDeck();
+  immediateParentDeckId: string;
 
   constructor(private deckService: DeckService, private router: Router, private route: ActivatedRoute, private loadingController: LoadingController) { }
 
   ngOnInit(): void {
-    this.deck.parentDeckId = this.route.snapshot.paramMap.get('parentDeckId');
+    this.immediateParentDeckId = this.route.snapshot.paramMap.get('parentDeckId');
   }
 
   async onSubmit() {
 
     const loading = await this.loadingController.create({ message: 'Creating deck' });
     await loading.present();
-    this.deckService.createDeck(this.deck).then(doc => {
-      this.loadingController.dismiss();
-      this.router.navigateByUrl('/decks/'+doc.id);
-    });
+    const docId = await this.deckService.createDeck(this.deck, this.immediateParentDeckId)
+    this.loadingController.dismiss();
+    this.router.navigateByUrl('/decks/' + docId);
   }
 }
 

@@ -43,6 +43,10 @@ export class CardReviewService {
     ));
   }
 
+  getReviewsForCardId(cardId: string) {
+    return this.db.collection('cardReview', ref=> ref.where('cardId', '==', cardId)).valueChanges({idField: 'id'})
+  }
+
   getReview(id: string) {
     return this.reviewCollection.doc<CardReview>(id).valueChanges();
   }
