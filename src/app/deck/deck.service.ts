@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Deck } from './deck.model';
-import { map, filter, take, pairwise, switchMap, tap } from 'rxjs/operators';
+import { map, filter, take, pairwise } from 'rxjs/operators';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Location } from '@angular/common';
-import { Router, NavigationEnd, RoutesRecognized } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { CardService } from '../card/card.service';
 import { CardReviewService } from '../card-review/card-review.service';
 
@@ -91,7 +91,7 @@ export class DeckService {
           this.cardService.delete(card.id);
           this.cardReviewService.getReviewsForCardId(card.id).pipe(take(1)).subscribe(
             cardReviews => cardReviews.forEach(cardReview => {
-              this.cardReviewService.deleteReview(cardReview.id).then(
+              this.cardReviewService.delete(cardReview.id).then(
                 d => console.log('Deleted your card review '+ JSON.stringify(cardReview))
               );
             })

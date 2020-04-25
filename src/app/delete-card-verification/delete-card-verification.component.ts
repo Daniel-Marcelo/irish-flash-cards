@@ -32,5 +32,4 @@ export class DeleteCardVerificationComponent {
   async close() {
     await this.popoverController.dismiss();
   }
-
 }

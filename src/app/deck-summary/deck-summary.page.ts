@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DeckService } from '../deck/deck.service';
 import { Deck } from '../deck/deck.model';
 import { Observable } from 'rxjs';
-import { Card, CardDoc } from '../card/card.model';
+import { Card } from '../card/card.model';
 import { CardService } from '../card/card.service';
 import { CardReviewService } from '../card-review/card-review.service';
 import { Unsubscribe } from '../unsubscribe';
@@ -24,7 +24,7 @@ export class DeckSummaryPage extends Unsubscribe implements OnInit {
   cardsView = true;
   deck$: Observable<Deck>
   decks$: Observable<Deck[]>
-  cards$: Observable<CardDoc[]>;
+  cards$: Observable<Doc<Card>[]>;
 
   constructor(private deckContextService: DeckContextService, private popoverController: PopoverController, private cardReviewService: CardReviewService, private route: ActivatedRoute, private router: Router, private cardService: CardService, private deckService: DeckService) { 
     super();

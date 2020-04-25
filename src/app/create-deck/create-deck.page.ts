@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DeckService } from '../deck/deck.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { Deck, newDeck, } from '../deck/deck.model';
-import { take, first } from 'rxjs/operators';
+import { newDeck } from '../deck/deck.model';
 
 @Component({
   selector: 'app-create-deck',

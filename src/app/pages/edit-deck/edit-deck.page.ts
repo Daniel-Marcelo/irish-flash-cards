@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Deck, newDeck } from 'src/app/deck/deck.model';
+import { newDeck } from 'src/app/deck/deck.model';
 import { DeckService } from 'src/app/deck/deck.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';

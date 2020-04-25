@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardReviewService } from './card-review.service';
-import { Card, CardDoc } from '../card/card.model';
+import { Card } from '../card/card.model';
 import { Observable, of } from 'rxjs';
 import { DeckService } from '../deck/deck.service';
 import { map } from 'rxjs/operators';
 import { ReviewDifficulty } from './card-review.model';
 import { Unsubscribe } from '../unsubscribe';
 import { CardService } from '../card/card.service';
+import { Doc } from '../base-firestore';
 
 @Component({
   selector: 'app-card-review',
@@ -31,7 +32,7 @@ export class CardReviewPage extends Unsubscribe implements OnInit {
     this.card$ = of(this.cardReviewService.getCardForReview());
   }
 
-  reviewed(card: CardDoc, level: ReviewDifficulty): void {
+  reviewed(card: Doc<Card>, level: ReviewDifficulty): void {
     this.cardReviewService.reviewed(card, level);
   }
 }

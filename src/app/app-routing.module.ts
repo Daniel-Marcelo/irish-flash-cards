@@ -12,10 +12,6 @@ const routes: Routes = [
     loadChildren: () => import('./decks/decks.module').then( m => m.DecksPageModule)
   },
   {
-    path: 'card',
-    loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
-  },
-  {
     path: 'deck-summary',
     loadChildren: () => import('./deck-summary/deck-summary.module').then( m => m.DeckSummaryPageModule)
   },

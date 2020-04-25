@@ -5,7 +5,3 @@ export interface Card {
     question: string,
     answer: string
 }
-
-export interface CardDoc extends Card {
-    id: string,
-}
