@@ -8,6 +8,7 @@ import { CreateCardPageRoutingModule } from './create-card-routing.module';
 
 import { CreateCardPage } from './create-card.page';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
     CreateCardPageRoutingModule
   ],
   declarations: [CreateCardPage],
-  providers: [MediaCapture]
+  providers: [MediaCapture, ImagePicker]
 })
 export class CreateCardPageModule {}

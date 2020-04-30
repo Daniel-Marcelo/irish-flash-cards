@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'edit-card/:cardId',
     loadChildren: () => import('./pages/edit-card/edit-card.module').then( m => m.EditCardPageModule)
+  },  {
+    path: 'sign-up',
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
+
 ];
 
 @NgModule({
