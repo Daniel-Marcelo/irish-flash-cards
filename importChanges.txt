@@ -1,0 +1,7 @@
+androidx.core.app.ActivityCompat;
+instead of
+android.support.v4.app.ActivityCompat;
+
+androidx.appcompat.app.AppCompatActivity
+instead of
+android.support.v7.app.AppCompatActivity

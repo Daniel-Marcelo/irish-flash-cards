@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestoreCollection } from '@angular/fire/firestore/public_api';
+import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
+import { File } from '@ionic-native/File/ngx';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +15,48 @@ export class ImageUploadService {
   private images: Observable<MyData[]>;
   fileSize;
 
-  constructor(private db: AngularFirestore, private storage: AngularFireStorage) {
+  constructor(private db: AngularFirestore, private storage: AngularFireStorage, private file: File, private toastCtrl: ToastController) {
     this.imageCollection = db.collection<MyData>('freakyImages');
     this.images = this.imageCollection.valueChanges();
+  }
+
+  async uploadImage2(fullPath: string) {
+    console.log('Using full path: '+ fullPath);
+    const adjustedPath = fullPath.substr(0, fullPath.lastIndexOf('/') + 1);
+    console.log('adjusted path '+ adjustedPath);
+    const fileName = fullPath.substr(fullPath.lastIndexOf('/') + 1, fullPath.length - 1);
+    console.log('fileName '+ fileName);
+    // const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
+    const type = this.getMimeType(fileName.split('.').pop());
+    console.log('type '+ type);
+
+
+
+    const buffer = await this.file.readAsArrayBuffer(adjustedPath, fileName);
+    console.log('After buffer '+ buffer);
+    const fileBlob = new Blob([buffer], type);
+    console.log('After Blob '+ fileBlob);
+
+    console.log('setting upload path : '+`files/${new Date().getTime()}_'today`);
+    const uploadTask = this.storage.upload(
+      `files/${new Date().getTime()}_'today`,
+      fileBlob
+    );
+
+    uploadTask.then(async res => {
+      const toast = await this.toastCtrl.create({
+        duration: 3000,
+        message: 'File upload finished!'
+      });
+      toast.present();
+    });
+  }
+
+  getMimeType(fileExt) {
+    if (fileExt == 'wav') return { type: 'audio/wav' };
+    else if (fileExt == 'jpg' || fileExt == 'jpeg') return { type: 'image/jpg' };
+    else if (fileExt == 'mp4') return { type: 'video/mp4' };
+    else if (fileExt == 'MOV') return { type: 'video/quicktime' };
   }
 
   uploadImage(event: FileList) {
