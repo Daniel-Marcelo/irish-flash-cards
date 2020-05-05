@@ -6,6 +6,7 @@ import { DeckService } from '../deck/deck.service';
 import { Location } from '@angular/common';
 import { DeckContextService } from '../services/deck-context.service';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { ImageUploadService } from '../services/image-upload.service';
 
 @Component({
   selector: 'app-create-card',
@@ -18,7 +19,7 @@ export class CreateCardPage implements OnInit {
   answer: string;
   deckId: string;
 
-  constructor(private imagePicker: ImagePicker, private deckContextService: DeckContextService, private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private imageUpload: ImageUploadService, private imagePicker: ImagePicker, private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
@@ -27,8 +28,8 @@ export class CreateCardPage implements OnInit {
   async onSubmit() {
     this.deckService.getDeck(this.deckId).subscribe(
       deck => {
-        const parentDeckIds  = [...deck.parentDeckIds, this.deckId];
-        this.cardService.create({immediateParentDeckId: this.deckId, question: this.question, answer: this.answer, deckIds: parentDeckIds}).then(
+        const parentDeckIds = [...deck.parentDeckIds, this.deckId];
+        this.cardService.create({ immediateParentDeckId: this.deckId, question: this.question, answer: this.answer, deckIds: parentDeckIds }).then(
           card => {
             this.location.back();
           }
@@ -37,19 +38,37 @@ export class CreateCardPage implements OnInit {
     );
   }
 
-  pickImage() {
+  async pickImage() {
+
     // this.mediaCapture.captureImage().then(
-      this.imagePicker.getPictures({maximumImagesCount: 1}).then(
-      (data: MediaFile[]) => {
-        alert('data '+ JSON.stringify(data))
-      },
-      (err: CaptureError) => alert('Error' +err));
+    const data = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
+    // this.imagePicker.getPictures({maximumImagesCount: 1}).then(
+    // (data: MediaFile[]) => {
+    alert('data ' + JSON.stringify(data))
+    const fullPath = data[0] as any;
+    await this.imageUpload.uploadImage2(fullPath);
+    // },
+    // (err: CaptureError) => alert('Error' +err));
+    // const options: CameraOptions = {
+    //   quality: 50,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   correctOrientation: true,
+    //   sourceType: 0,
+    // }
+
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    // }, (err) => {
+    //   // Handle error
+    // });
   }
 
   recordAudio() {
     this.mediaCapture.captureAudio().then(
       (data: MediaFile[]) => {
-        alert('data '+ JSON.stringify(data))
+        alert('data ' + JSON.stringify(data))
       },
       (err: CaptureError) => alert(JSON.stringify(err))
     );
