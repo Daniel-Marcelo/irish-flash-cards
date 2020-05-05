@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>sign-up</ion-title>
+    <ion-title>Create an account</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-cont
-    #signUpForm="ngForm" (ngSubmit)="onSubmit()">
+<ion-content class="ion-padding">
+   <form #signUpForm="ngForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input required [(ngModel)]="email" type="email" name="email"></ion-input>
@@ -15,7 +15,7 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input required [(ngModel)]="password" type="password" name="password"></ion-input>
     </ion-item>
-
-    <ion-button [disabled]="!signUpForm.form.valid" type="submit" expand="block">Create Card</ion-button>
+    <span *ngIf="error" style="display: inline-block;">{{error}}</span>
+    <ion-button [disabled]="!signUpForm.form.valid" type="submit" expand="block">Register</ion-button>
   </form>
 </ion-content>
