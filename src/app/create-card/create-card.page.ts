@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { MediaCapture, MediaFile, CaptureError } from '@ionic-native/media-capture/ngx';
 import { CardService } from '../card/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class CreateCardPage implements OnInit {
   answer: string;
   deckId: string;
 
-  constructor(private imageUpload: ImageUploadService, private imagePicker: ImagePicker, private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute) { }
+  constructor(private ngZone: NgZone, private imageUpload: ImageUploadService, private imagePicker: ImagePicker, private location: Location, private mediaCapture: MediaCapture, private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.deckId = this.route.snapshot.paramMap.get('deckId');
@@ -41,12 +41,23 @@ export class CreateCardPage implements OnInit {
   async pickImage() {
 
     // this.mediaCapture.captureImage().then(
-    const data = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
-    // this.imagePicker.getPictures({maximumImagesCount: 1}).then(
-    // (data: MediaFile[]) => {
-    alert('data ' + JSON.stringify(data))
-    const fullPath = data[0] as any;
-    await this.imageUpload.uploadImage2(fullPath);
+    // const data = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
+    // // this.imagePicker.getPictures({maximumImagesCount: 1}).then(
+    // // (data: MediaFile[]) => {
+    // alert('data ' + JSON.stringify(data))
+    // const fullPath = data[0] as any;
+    // this.ngZone.run(() =>
+     const data =  await this.imagePicker.getPictures({ maximumImagesCount: 1, outputType: 0 })
+      // .then(
+        // (data: string) => {
+          alert(data)
+          
+          await this.imageUpload.uploadImage3(data[0])
+          // .then(a => null);
+        // },
+        // (err: CaptureError) => alert('Error' + err))
+    // );
+    // await this.imageUpload.uploadImage(fullPath);
     // },
     // (err: CaptureError) => alert('Error' +err));
     // const options: CameraOptions = {

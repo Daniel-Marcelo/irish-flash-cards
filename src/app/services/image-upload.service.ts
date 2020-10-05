@@ -20,26 +20,22 @@ export class ImageUploadService {
     this.images = this.imageCollection.valueChanges();
   }
 
-  async uploadImage2(fullPath: string) {
-    console.log('Using full path: '+ fullPath);
-    const adjustedPath = fullPath.substr(0, fullPath.lastIndexOf('/') + 1);
-    console.log('adjusted path '+ adjustedPath);
+  async uploadImage3(fullPath: string) {
+    const path = fullPath.substr(0, fullPath.lastIndexOf('/') + 1);
     const fileName = fullPath.substr(fullPath.lastIndexOf('/') + 1, fullPath.length - 1);
-    console.log('fileName '+ fileName);
-    // const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
-    const type = this.getMimeType(fileName.split('.').pop());
-    console.log('type '+ type);
+    console.log('adjusted path '+ path);
+    console.log('adjusted name '+ fileName);
 
-
-
-    const buffer = await this.file.readAsArrayBuffer(adjustedPath, fileName);
-    console.log('After buffer '+ buffer);
+    const type = { type: 'image/jpg' }
+    const buffer = await this.file.readAsArrayBuffer(path, fileName);
     const fileBlob = new Blob([buffer], type);
-    console.log('After Blob '+ fileBlob);
-
-    console.log('setting upload path : '+`files/${new Date().getTime()}_'today`);
+ 
+    const randomId = Math.random()
+      .toString(36)
+      .substring(2, 8);
+ 
     const uploadTask = this.storage.upload(
-      `files/${new Date().getTime()}_'today`,
+      `files/${new Date().getTime()}_${randomId}`,
       fileBlob
     );
 
@@ -50,6 +46,46 @@ export class ImageUploadService {
       });
       toast.present();
     });
+  }
+
+  uploadImage2(fullPath: string) {
+    console.log('Using full path: '+ fullPath);
+    const path = fullPath.substr(0, fullPath.lastIndexOf('/') + 1);
+    console.log('adjusted path '+ path);
+    const fileName = fullPath.substr(fullPath.lastIndexOf('/') + 1, fullPath.length - 1);
+    console.log('fileName '+ fileName);
+
+
+
+
+
+    // const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
+    const type = this.getMimeType(fileName.split('.').pop());
+    console.log('type '+ type.type);
+    console.log(path);
+    console.log(fileName);
+    // const buffer = await this.file.readAsArrayBuffer(adjustedPath, fileName);
+    this.file.readAsArrayBuffer(path, fileName).then(
+      buffer => {
+        console.log('After buffer '+ buffer);
+        const fileBlob = new Blob([buffer], type);
+        console.log('After Blob '+ fileBlob);
+    
+        console.log('setting upload path : '+`files/${new Date().getTime()}_'today`);
+        const uploadTask = this.storage.upload(
+          `files/${new Date().getTime()}_'today`,
+          fileBlob
+        );
+    
+        uploadTask.then(res => {
+          this.toastCtrl.create({
+            duration: 3000,
+            message: 'File upload finished!'
+          }).then(toast => {
+            toast.present();
+          });
+        });
+      })
   }
 
   getMimeType(fileExt) {
